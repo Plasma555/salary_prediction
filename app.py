@@ -4,8 +4,8 @@ import pickle
 import pandas as pd
 
 app = Flask(__name__)#name of directory
-model = pickle.load(open('\model.pkl','rb'))
-model_columns=pickle.load(open('\model_columns.pkl','rb'))
+model = pickle.load(open('model.pkl','rb'))
+model_columns=pickle.load(open('model_columns.pkl','rb'))
 
 #route
 @app.route('/')
