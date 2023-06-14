@@ -17,10 +17,295 @@ df=pd.read_csv("Salary_Data.csv")
 
 df=df.dropna()
 
+# Get the list of column names
+categorical_columns = df.select_dtypes(include=['object']).columns
+
+
+# Iterate over each categorical column
+for column in categorical_columns:
+    unique_values = df[column].unique()
+    print(f"Unique values in '{column}': {unique_values}")
+
+# Define a dictionary to map job titles to broader categories
+title_mapping = {
+    'Software Engineer': 'Engineering',
+    'Data Analyst': 'Analytics',
+    'Senior Manager': 'Management',
+    'Sales Associate': 'Sales',
+    'Director': 'Management',
+    'Marketing Analyst': 'Marketing',
+    'Product Manager': 'Management',
+    'Sales Manager': 'Management',
+    'Marketing Coordinator': 'Marketing',
+    'Senior Scientist': 'Science',
+    'Software Developer': 'Engineering',
+    'HR Manager': 'Human Resources',
+    'Financial Analyst': 'Finance',
+    'Project Manager': 'Management',
+    'Customer Service Rep': 'Customer Service',
+    'Operations Manager': 'Management',
+    'Marketing Manager': 'Management',
+    'Senior Engineer': 'Engineering',
+    'Data Entry Clerk': 'Administrative',
+    'Sales Director': 'Management',
+    'Business Analyst': 'Analytics',
+    'VP of Operations': 'Management',
+    'IT Support': 'IT',
+    'Recruiter': 'Human Resources',
+    'Financial Manager': 'Finance',
+    'Social Media Specialist': 'Marketing',
+    'Software Manager': 'Management',
+    'Junior Developer': 'Engineering',
+    'Senior Consultant': 'Consulting',
+    'Product Designer': 'Design',
+    'CEO': 'Management',
+    'Accountant': 'Finance',
+    'Data Scientist': 'Analytics',
+    'Marketing Specialist': 'Marketing',
+    'Technical Writer': 'IT',
+    'HR Generalist': 'Human Resources',
+    'Project Engineer': 'Engineering',
+    'Customer Success Rep': 'Customer Service',
+    'Sales Executive': 'Sales',
+    'UX Designer': 'Design',
+    'Operations Director': 'Management',
+    'Network Engineer': 'IT',
+    'Administrative Assistant': 'Administrative',
+    'Strategy Consultant': 'Consulting',
+    'Copywriter': 'Marketing',
+    'Account Manager': 'Management',
+    'Director of Marketing': 'Management',
+    'Help Desk Analyst': 'IT',
+    'Customer Service Manager': 'Management',
+    'Business Intelligence Analyst': 'Analytics',
+    'Event Coordinator': 'Management',
+    'VP of Finance': 'Finance',
+    'Graphic Designer': 'Design',
+    'UX Researcher': 'Design',
+    'Social Media Manager': 'Marketing',
+    'Director of Operations': 'Management',
+    'Senior Data Scientist': 'Analytics',
+    'Junior Accountant': 'Finance',
+    'Digital Marketing Manager': 'Marketing',
+    'IT Manager': 'IT',
+    'Customer Service Representative': 'Customer Service',
+    'Business Development Manager': 'Management',
+    'Senior Financial Analyst': 'Finance',
+    'Web Developer': 'Engineering',
+    'Research Director': 'Management',
+    'Technical Support Specialist': 'IT',
+    'Creative Director': 'Design',
+    'Senior Software Engineer': 'Engineering',
+    'Human Resources Director': 'Human Resources',
+    'Content Marketing Manager': 'Marketing',
+    'Technical Recruiter': 'Human Resources',
+    'Sales Representative': 'Sales',
+    'Chief Technology Officer': 'Management',
+    'Junior Designer': 'Design',
+    'Financial Advisor': 'Finance',
+    'Junior Account Manager': 'Management',
+    'Senior Project Manager': 'Management',
+    'Principal Scientist': 'Science',
+    'Supply Chain Manager': 'Management',
+    'Senior Marketing Manager': 'Marketing',
+    'Training Specialist': 'Human Resources',
+    'Research Scientist': 'Science',
+    'Junior Software Developer': 'Engineering',
+    'Public Relations Manager': 'Marketing',
+    'Operations Analyst': 'Management',
+    'Product Marketing Manager': 'Marketing',
+    'Senior HR Manager': 'Human Resources',
+    'Junior Web Developer': 'Engineering',
+    'Senior Project Coordinator': 'Management',
+    'Chief Data Officer': 'Management',
+    'Digital Content Producer': 'Marketing',
+    'IT Support Specialist': 'IT',
+    'Senior Marketing Analyst': 'Marketing',
+    'Customer Success Manager': 'Customer Service',
+    'Senior Graphic Designer': 'Design',
+    'Software Project Manager': 'Management',
+    'Supply Chain Analyst': 'Management',
+    'Senior Business Analyst': 'Analytics',
+    'Junior Marketing Analyst': 'Marketing',
+    'Office Manager': 'Administrative',
+    'Principal Engineer': 'Engineering',
+    'Junior HR Generalist': 'Human Resources',
+    'Senior Product Manager': 'Management',
+    'Junior Operations Analyst': 'Management',
+    'Senior HR Generalist': 'Human Resources',
+    'Sales Operations Manager': 'Management',
+    'Senior Software Developer': 'Engineering',
+    'Junior Web Designer': 'Design',
+    'Senior Training Specialist': 'Human Resources',
+    'Senior Research Scientist': 'Science',
+    'Junior Sales Representative': 'Sales',
+    'Junior Marketing Manager': 'Marketing',
+    'Junior Data Analyst': 'Analytics',
+    'Senior Product Marketing Manager': 'Marketing',
+    'Junior Business Analyst': 'Analytics',
+    'Senior Sales Manager': 'Management',
+    'Junior Marketing Specialist': 'Marketing',
+    'Junior Project Manager': 'Management',
+    'Senior Accountant': 'Finance',
+    'Director of Sales': 'Management',
+    'Junior Recruiter': 'Human Resources',
+    'Senior Business Development Manager': 'Management',
+    'Senior Product Designer': 'Design',
+    'Junior Customer Support Specialist': 'Customer Service',
+    'Senior IT Support Specialist': 'IT',
+    'Junior Financial Analyst': 'Finance',
+    'Senior Operations Manager': 'Management',
+    'Director of Human Resources': 'Human Resources',
+    'Junior Software Engineer': 'Engineering',
+    'Senior Sales Representative': 'Sales',
+    'Director of Product Management': 'Management',
+    'Junior Copywriter': 'Marketing',
+    'Senior Marketing Coordinator': 'Marketing',
+    'Senior Human Resources Manager': 'Human Resources',
+    'Junior Business Development Associate': 'Management',
+    'Senior Account Manager': 'Management',
+    'Senior Researcher': 'Science',
+    'Junior HR Coordinator': 'Human Resources',
+    'Director of Finance': 'Finance',
+    'Junior Marketing Coordinator': 'Marketing',
+    # Add more mappings as needed
+}
+
+# Apply the mapping to the 'Job Title' column
+df['Job Title'] = df['Job Title'].map(title_mapping).fillna(df['Job Title'])
+
+# Display the reduced unique values in 'Job Title'
+unique_job_titles = df['Job Title'].unique()
+print("Unique values in 'Job Title':", unique_job_titles)
+
+# Define a dictionary to map job title categories to broader groups
+category_mapping = {
+    'Engineering': 'Engineering',
+    'Analytics': 'Engineering',
+    'Management': 'Management',
+    'Sales': 'Sales',
+    'Marketing': 'Marketing',
+    'Science': 'Engineering',
+    'Human Resources': 'HR',
+    'Finance': 'Support',
+    'Customer Service': 'Support',
+    'Administrative': 'Support',
+    'IT': 'Engineering',
+    'Consulting': 'Management',
+    'Design': 'Creative',
+    'Junior Data Scientist': 'Engineering',
+    'Senior Operations Analyst': 'Engineering',
+    'Senior Human Resources Coordinator': 'HR',
+    'Senior UX Designer': 'Creative',
+    'Junior Product Manager': 'Management',
+    'Senior Marketing Specialist': 'Marketing',
+    'Senior IT Project Manager': 'Management',
+    'Senior Quality Assurance Analyst': 'Engineering',
+    'Director of Sales and Marketing': 'Management',
+    'Senior Account Executive': 'Sales',
+    'Director of Business Development': 'Management',
+    'Junior Social Media Manager': 'Marketing',
+    'Senior Human Resources Specialist': 'HR',
+    'Senior Data Analyst': 'Engineering',
+    'Director of Human Capital': 'Management',
+    'Junior Advertising Coordinator': 'Marketing',
+    'Junior UX Designer': 'Creative',
+    'Senior Marketing Director': 'Marketing',
+    'Senior IT Consultant': 'Engineering',
+    'Senior Financial Advisor': 'Finance',
+    'Junior Business Operations Analyst': 'Management',
+    'Junior Social Media Specialist': 'Marketing',
+    'Senior Product Development Manager': 'Management',
+    'Junior Operations Manager': 'Management',
+    'Senior Software Architect': 'Engineering',
+    'Junior Research Scientist': 'Engineering',
+    'Senior Financial Manager': 'Finance',
+    'Senior HR Specialist': 'HR',
+    'Senior Data Engineer': 'Engineering',
+    'Junior Operations Coordinator': 'Management',
+    'Director of HR': 'HR',
+    'Senior Operations Coordinator': 'Management',
+    'Junior Financial Advisor': 'Finance',
+    'Director of Engineering': 'Engineering',
+    'Software Engineer Manager': 'Engineering',
+    'Back end Developer': 'Engineering',
+    'Senior Project Engineer': 'Engineering',
+    'Full Stack Engineer': 'Engineering',
+    'Front end Developer': 'Engineering',
+    'Developer': 'Engineering',
+    'Front End Developer': 'Engineering',
+    'Director of Data Science': 'Engineering',
+    'Human Resources Coordinator': 'HR',
+    'Junior Sales Associate': 'Sales',
+    'Human Resources Manager': 'HR',
+    'Juniour HR Generalist': 'HR',
+    'Juniour HR Coordinator': 'HR',
+    'Digital Marketing Specialist': 'Marketing',
+    'Receptionist': 'Support',
+    'Marketing Director': 'Marketing',
+    'Social M': 'Marketing',
+    'Social Media Man': 'Marketing',
+    'Delivery Driver': 'Support'
+}
+
+# Map the job titles to categories
+df['Category'] = df['Job Title'].map(category_mapping)
+
+# Display the updated dataset
+print(df['Category'].unique())
+
+education_mapping = {
+    "Bachelor's": "Bachelor's Degree",
+    "Master's": "Master's Degree",
+    'phD': 'PhD',
+    'High School': 'High School'
+}
+
+# Map the education levels to standardized format
+df['Education Level'] = df['Education Level'].map(education_mapping).fillna(df['Education Level'])
+
+# Display the unique values in the "Education Level" column
+print(df['Education Level'].unique())
+
+count = df['Gender'].value_counts()['Other']
+
+# Display the count
+print("Number of Others: ", count)
+
+df = df[df['Gender'] != 'Other']
+
+nan_counts = df.isna().sum()
+
+# Display the number of NaN values in each column
+print("NaN counts per column:")
+print(nan_counts)
+
+df = df.dropna()
+
+categorical_columns = df.select_dtypes(include=['object']).columns
+
+
+# Iterate over each categorical column
+for column in categorical_columns:
+    unique_values = df[column].unique()
+    print(f"Unique values in '{column}': {unique_values}")
+
+df.head()
+
+df=df.drop('Job Title',axis=1)
+
+df = df.rename(columns={'Category': 'Job Title'})
+
+df.head()
+
+nan_counts = df.isna().sum()
+
+# Display the number of NaN values in each column
+print("NaN counts per column:")
+print(nan_counts)
+
 df=pd.get_dummies(df)
-
 X=df.drop("Salary",axis=1)
-
 y=df['Salary']
 
 import xgboost as xgb
@@ -39,4 +324,15 @@ xgb_reg = xgb.XGBRegressor()
 # Fit the regressor to the training data
 xgb_reg.fit(X_train, y_train)
 
+y_pred = xgb_reg.predict(X_test)
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+
+
+r2_score = xgb_reg.score(X_test, y_test)
+
+print("R-squared Score:", r2_score)
+
 pickle.dump(xgb_reg, open('model.pkl','wb'))
+
+model = pickle.load(open('model.pkl','rb'))
