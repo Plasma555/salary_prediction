@@ -2,6 +2,7 @@ import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
 import pandas as pd
+import os
 
 app = Flask(__name__)
 current_dir = os.path.dirname(os.path.abspath(__file__))
