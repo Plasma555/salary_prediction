@@ -3,9 +3,15 @@ from flask import Flask, request, jsonify, render_template
 import pickle
 import pandas as pd
 
-app = Flask(__name__)#name of directory
-model = pickle.load(open('model.pkl','rb'))
-model_columns=pickle.load(open('model_columns.pkl','rb'))
+app = Flask(__name__)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, 'model.pkl')
+model_columns_path = os.path.join(current_dir, 'model_columns.pkl')
+
+model = pickle.load(open(model_path, 'rb'))
+model_columns = pickle.load(open(model_columns_path, 'rb'))
+
+
 
 #route
 @app.route('/')
